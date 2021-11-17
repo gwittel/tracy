@@ -21,7 +21,7 @@ directory to which file writes should be restricted.
 .. code-block:: bash
 
     $ zipjail
-    zipjail 0.5.3 - safe unpacking of potentially unsafe archives.
+    zipjail 0.5.4 - safe unpacking of potentially unsafe archives.
     Copyright (C) 2016-2018, Jurriaan Bremer <jbr@hatching.io>.
     Copyright (C) 2018-2021, Hatching B.V.
     Based on Tracy by Merlijn Wajer and Bas Weelinck.
