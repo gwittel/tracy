@@ -410,6 +410,7 @@ static int _sandbox_futex(struct tracy_event *e)
     case FUTEX_PRIVATE_FLAG:
     case FUTEX_WAKE_PRIVATE:
     case FUTEX_CMP_REQUEUE_PRIVATE:
+    case FUTEX_WAIT_BITSET | FUTEX_CLOCK_REALTIME:
     case FUTEX_WAIT_BITSET | FUTEX_PRIVATE_FLAG | FUTEX_CLOCK_REALTIME:
         return TRACY_HOOK_CONTINUE;
     }
@@ -607,7 +608,7 @@ int main(int argc, char *argv[])
 {
     if(argc < 4) {
         fprintf(stderr,
-            "zipjail 0.5.4 - safe unpacking of potentially unsafe archives.\n"
+            "zipjail 0.5.5 - safe unpacking of potentially unsafe archives.\n"
             "Copyright (C) 2016-2018, Jurriaan Bremer <jbr@hatching.io>.\n"
             "Copyright (C) 2018-2021, Hatching B.V.\n"
             "Based on Tracy by Merlijn Wajer and Bas Weelinck.\n"
