@@ -64,6 +64,12 @@ static const char *g_open_mmap_rx_allowed[] = {
     "/lib/x86_64-linux-gnu/libnss_compat.so.2",
     "/lib/x86_64-linux-gnu/libnss_files.so.2",
     "/lib/x86_64-linux-gnu/libnss_nis.so.2",
+#if defined(__arm64__) || defined(__aarch64__)
+    "/lib/aarch64-linux-gnu/libnsl.so.1",
+    "/lib/aarch64-linux-gnu/libnss_compat.so.2",
+    "/lib/aarch64-linux-gnu/libnss_files.so.2",
+    "/lib/aarch64-linux-gnu/libnss_nis.so.2",
+#endif
     NULL,
 };
 
@@ -701,6 +707,7 @@ int main(int argc, char *argv[])
     }
 #endif
 
+#if __i386__
     if(tracy_set_hook(g_tracy, "open", TRACY_ABI_X86, &_trigger_open) < 0) {
         fprintf(stderr, "Error hooking open(2)\n");
         return 1;
@@ -709,6 +716,18 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Error hooking open(2)\n");
         return 1;
     }
+#endif
+
+#if defined(__arm64__) || defined(__aarch64__) || __arm__
+    if(tracy_set_hook(g_tracy, "open", TRACY_ABI_NATIVE, &_trigger_open) < 0) {
+        fprintf(stderr, "Error hooking open(2)\n");
+        return 1;
+    }
+    if(tracy_set_hook(g_tracy, "openat", TRACY_ABI_NATIVE, &_trigger_openat) < 0) {
+        fprintf(stderr, "Error hooking open(2)\n");
+        return 1;
+    }
+#endif
 
     tracy_exec(g_tracy, ++argv);
     tracy_main(g_tracy);

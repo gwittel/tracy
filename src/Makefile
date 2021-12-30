@@ -30,6 +30,7 @@ arch="arm"
 else ifeq ($(uname_M),armv7l)
 arch="arm"
 else ifeq ($(uname_M),aarch64)
+CFLAGS+=-I/usr/include/aarch64-linux-gnu
 arch="arm64"
 else ifeq ($(uname_M),x86_64)
 CFLAGS+=-I/usr/include/x86_64-linux-gnu
@@ -136,7 +137,7 @@ tests/fuzz-write.o: $(TRACY_HS)
 tests/faketime.o: $(TRACY_HS)
 tests/llseek.o: $(TRACY_HS)
 
-def_syscalls.h:
+def_syscalls.h: $(ARCH_HS)
 	echo "#include <sys/syscall.h>" | $(CC) $(CFLAGS) - -E -P -dM \
 		| grep "define SYS" | cut -f2 -d" " | \
 		sed 's/SYS_//;s/\(.*\)/DEF_SYSCALL(&)/' > def_syscalls.h
@@ -247,5 +248,6 @@ clean:
 	rm *.o *.a *.so def_syscalls.h tests/*.o -f $(test_binaries) \
 		arch/amd64/syscall_*.h arch/amd64/*.o \
 		arch/arm/syscall_*.h arch/arm/*.o \
+		arch/arm64/syscall_*.h arch/arm64/*.o \
 		arch/x86/syscall_*.h arch/x86/*.o \
 		arch/ppc/syscall_*.h arch/ppc/*.o
