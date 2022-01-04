@@ -702,7 +702,7 @@ int tracy_debug_current(struct tracy_child *child) {
     struct iovec iov;
     iov.iov_base = (void*) &a;
     iov.iov_len  = sizeof(a);
-    ptrace(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, child->pid, 0, &a, -1);

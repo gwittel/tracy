@@ -116,7 +116,7 @@ int tracy_inject_syscall_pre_start(struct tracy_child *child, long syscall_numbe
     iov.iov_base = (void*) &child->inj.reg;
     iov.iov_len  = sizeof(child->inj.reg);
 
-    ptrace(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, child->pid, 0, &child->inj.reg, -1);
 #   endif
@@ -151,7 +151,7 @@ int tracy_inject_syscall_pre_end(struct tracy_child *child, long *return_code) {
     iov.iov_base = (void*) &newargs;
     iov.iov_len  = sizeof(newargs);
 
-    ptrace(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, child->pid, 0, &newargs, -1);
 #   endif
@@ -168,7 +168,7 @@ int tracy_inject_syscall_pre_end(struct tracy_child *child, long *return_code) {
     iov.iov_base = (void*) &child->inj.reg;
     iov.iov_len  = sizeof(child->inj.reg);
 
-    ptrace(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_SETREGS, child->pid, 0, &child->inj.reg, -1);
 #   endif
@@ -203,7 +203,7 @@ int tracy_inject_syscall_post_start(struct tracy_child *child, long syscall_numb
     iov.iov_base = (void*) &child->inj.reg;
     iov.iov_len  = sizeof(child->inj.reg);
 
-    ptrace(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, child->pid, 0, &child->inj.reg, -1);
 #   endif
@@ -217,7 +217,7 @@ int tracy_inject_syscall_post_start(struct tracy_child *child, long syscall_numb
     iov.iov_base = (void*) &newargs;
     iov.iov_len  = sizeof(newargs);
 
-    ptrace(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, child->pid, 0, &newargs, -1);
 #   endif
@@ -229,7 +229,7 @@ int tracy_inject_syscall_post_start(struct tracy_child *child, long syscall_numb
     iov.iov_base = (void*) &newargs;
     iov.iov_len  = sizeof(newargs);
 
-    ptrace(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_SETREGS, child->pid, 0, &newargs, -1);
 #   endif
@@ -265,7 +265,7 @@ int tracy_inject_syscall_post_end(struct tracy_child *child, long *return_code) 
     iov.iov_base = (void*) &newargs;
     iov.iov_len  = sizeof(newargs);
 
-    ptrace(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, child->pid, 0, &newargs, -1);
 #   endif
@@ -276,7 +276,7 @@ int tracy_inject_syscall_post_end(struct tracy_child *child, long *return_code) 
     iov.iov_base = (void*) &child->inj.reg;
     iov.iov_len  = sizeof(child->inj.reg);
 
-    ptrace(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_SETREGS, child->pid, 0, &child->inj.reg, -1);
 #   endif
@@ -309,7 +309,7 @@ int tracy_modify_syscall_args(struct tracy_child *child, long syscall_number,
     iov.iov_base = (void*) &newargs;
     iov.iov_len  = sizeof(newargs);
 
-    ptrace(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, child->pid, 0, &newargs, -1);
 #   endif
@@ -336,7 +336,7 @@ int tracy_modify_syscall_args(struct tracy_child *child, long syscall_number,
     iov.iov_base = (void*) &newargs;
     iov.iov_len  = sizeof(newargs);
 
-    ptrace(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_SETREGS, child->pid, 0, &newargs, -1);
 #   endif
@@ -375,7 +375,7 @@ int tracy_modify_syscall_regs(struct tracy_child *child, long syscall_number,
     iov.iov_base = (void*) &newargs;
     iov.iov_len  = sizeof(newargs);
 
-    ptrace(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_GETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, child->pid, 0, &newargs, -1);
 #   endif
@@ -402,7 +402,7 @@ int tracy_modify_syscall_regs(struct tracy_child *child, long syscall_number,
     iov.iov_base = (void*) &newargs;
     iov.iov_len  = sizeof(newargs);
 
-    ptrace(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_SETREGSET, child->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_SETREGS, child->pid, 0, &newargs, -1);
 #   endif

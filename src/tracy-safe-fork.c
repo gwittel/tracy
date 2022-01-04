@@ -136,7 +136,7 @@ int tracy_safe_fork(struct tracy_child *c, pid_t *new_child)
      */
 
 #   if defined(__arm64__) || defined(__aarch64__)
-    ptrace(PTRACE_GETREGSET, c->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_GETREGSET, c->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, c->pid, 0, &args, -1);
 #   endif
@@ -194,7 +194,7 @@ int tracy_safe_fork(struct tracy_child *c, pid_t *new_child)
     */
 
 #   if defined(__arm64__) || defined(__aarch64__)
-    ptrace(PTRACE_SETREGSET, c->pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_SETREGSET, c->pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_SETREGS, c->pid, 0, &args, -1);
 #   endif
@@ -213,7 +213,7 @@ int tracy_safe_fork(struct tracy_child *c, pid_t *new_child)
      * into a fork syscall.
      */
 #   if defined(__arm64__) || defined(__aarch64__)
-    ptrace(PTRACE_GETREGSET, c->pid, NT_PRSTATUS, &iov_ret);
+    PTRACE_CHECK(PTRACE_GETREGSET, c->pid, NT_PRSTATUS, &iov_ret, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, c->pid, 0, &args_ret, -1);
 #   endif
@@ -241,7 +241,7 @@ int tracy_safe_fork(struct tracy_child *c, pid_t *new_child)
     #endif
 
 #   if defined(__arm64__) || defined(__aarch64__)
-    ptrace(PTRACE_SETREGSET, c->pid, NT_PRSTATUS, &iov_ret);
+    PTRACE_CHECK(PTRACE_SETREGSET, c->pid, NT_PRSTATUS, &iov_ret, -1);
 #   else
     PTRACE_CHECK(PTRACE_SETREGS, c->pid, 0, &args_ret, -1);
 #   endif
@@ -345,7 +345,7 @@ int tracy_safe_fork(struct tracy_child *c, pid_t *new_child)
         waitpid(c->pid, &status, __WALL);
 
 #       if defined(__arm64__) || defined(__aarch64__)
-        ptrace(PTRACE_GETREGSET, c->pid, NT_PRSTATUS, &iov_ret);
+        PTRACE_CHECK(PTRACE_GETREGSET, c->pid, NT_PRSTATUS, &iov_ret, -1);
 #       else
         PTRACE_CHECK(PTRACE_GETREGS, c->pid, 0, &args_ret, -1);
 #       endif
@@ -374,7 +374,7 @@ int tracy_safe_fork(struct tracy_child *c, pid_t *new_child)
         args_ret.TRACY_RETURN_CODE = child_pid;
 
 #       if defined(__arm64__) || defined(__aarch64__)
-        ptrace(PTRACE_SETREGSET, c->pid, NT_PRSTATUS, &iov_ret);
+        PTRACE_CHECK(PTRACE_SETREGSET, c->pid, NT_PRSTATUS, &iov_ret, -1);
 #       else
         PTRACE_CHECK(PTRACE_SETREGS, c->pid, 0, &args_ret, -1);
 #       endif
@@ -412,7 +412,7 @@ int tracy_safe_fork(struct tracy_child *c, pid_t *new_child)
      * needs to be left untouched.
      */
 #   if defined(__arm64__) || defined(__aarch64__)
-    ptrace(PTRACE_GETREGSET, child_pid, NT_PRSTATUS, &iov_ret);
+    PTRACE_CHECK(PTRACE_GETREGSET, child_pid, NT_PRSTATUS, &iov_ret, -1);
 #   else
     PTRACE_CHECK(PTRACE_GETREGS, child_pid, 0, &args_ret, -1);
 #   endif
@@ -420,7 +420,7 @@ int tracy_safe_fork(struct tracy_child *c, pid_t *new_child)
 
     /* Now update child registers */
 #   if defined(__arm64__) || defined(__aarch64__)
-    ptrace(PTRACE_SETREGSET, child_pid, NT_PRSTATUS, &iov);
+    PTRACE_CHECK(PTRACE_SETREGSET, child_pid, NT_PRSTATUS, &iov, -1);
 #   else
     PTRACE_CHECK(PTRACE_SETREGS, child_pid, 0, &args, -1);
 #   endif

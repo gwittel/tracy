@@ -702,7 +702,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     if(tracy_set_hook(g_tracy, "openat", TRACY_ABI_AMD64, &_trigger_openat) < 0) {
-        fprintf(stderr, "Error hooking open(2)\n");
+        fprintf(stderr, "Error hooking openat(2)\n");
         return 1;
     }
 #endif
@@ -713,18 +713,18 @@ int main(int argc, char *argv[])
         return 1;
     }
     if(tracy_set_hook(g_tracy, "openat", TRACY_ABI_X86, &_trigger_openat) < 0) {
-        fprintf(stderr, "Error hooking open(2)\n");
+        fprintf(stderr, "Error hooking openat(2)\n");
         return 1;
     }
 #endif
 
 #if defined(__arm64__) || defined(__aarch64__) || __arm__
-    if(tracy_set_hook(g_tracy, "open", TRACY_ABI_NATIVE, &_trigger_open) < 0) {
+    if(tracy_set_hook(g_tracy, "open", TRACY_ABI_EABI, &_trigger_open) < 0) {
         fprintf(stderr, "Error hooking open(2)\n");
         return 1;
     }
-    if(tracy_set_hook(g_tracy, "openat", TRACY_ABI_NATIVE, &_trigger_openat) < 0) {
-        fprintf(stderr, "Error hooking open(2)\n");
+    if(tracy_set_hook(g_tracy, "openat", TRACY_ABI_EABI, &_trigger_openat) < 0) {
+        fprintf(stderr, "Error hooking openat(2)\n");
         return 1;
     }
 #endif

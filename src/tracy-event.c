@@ -394,7 +394,7 @@ struct tracy_event *tracy_wait_event(struct tracy *t, pid_t c_pid) {
         iov.iov_base = (void*) &regs;
         iov.iov_len  = sizeof(regs);
 
-        ptrace(PTRACE_GETREGSET, pid, NT_PRSTATUS, &iov);
+        PTRACE_CHECK(PTRACE_GETREGSET, pid, NT_PRSTATUS, &iov, NULL);
 #       else
         PTRACE_CHECK(PTRACE_GETREGS, pid, NULL, &regs, NULL);
 #       endif
